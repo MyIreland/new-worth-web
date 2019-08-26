@@ -1,36 +1,54 @@
 import request from '@/utils/request'
+const T = {}
 
-export function getList(params) {
+T.page = function(data) {
   return request({
-    url: '/dict/list',
-    method: 'get',
-    params
-  })
-}
-
-export function save(params) {
-  return request({
-    url: '/dict',
+    url: 'api/dict/page',
     method: 'post',
-    params
+    data
   })
 }
 
-
-export function update(params) {
+T.get = function(id) {
   return request({
-    url: '/dict',
+    url: 'api/dict/' + id,
+    method: 'get'
+  })
+}
+
+T.save = function(data) {
+  return request({
+    url: 'api/dict',
+    method: 'post',
+    dataType: 'json',
+    data
+  })
+}
+
+T.update = function(data) {
+  return request({
+    url: 'api/dict',
     method: 'put',
-    params
+    dataType: 'json',
+    data
   })
 }
 
-export function remove(id) {
+T.del = function(id) {
   return request({
-    url: '/dict',
-    method: 'delete',
-    params: {
-      id:id
+    url: 'api/dict/' + id,
+    method: 'delete'
+  })
+}
+
+T.batchDel = function(ids) {
+  return request({
+    url: 'api/dict/batchDel',
+    method: 'post',
+    data: {
+      ids: ids
     }
   })
 }
+
+export default T

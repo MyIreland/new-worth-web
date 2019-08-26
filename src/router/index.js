@@ -89,6 +89,12 @@ export const asyncRouterMap = [
         meta: {
           title: '菜单管理'
         }
+      },
+      {
+        path: 'dict',
+        name: 'Dict',
+        component: () => import('@/views/system/dict/index'),
+        meta: { title: '字典管理' }
       }// ,
       // {
       //   path: 'dept',
@@ -123,12 +129,6 @@ export const asyncRouterMap = [
       //   hidden: true,
       //   meta: { title: 'taskLog' }
       //
-      // },
-      // {
-      //   path: 'dict',
-      //   name: 'Dict',
-      //   component: () => import('@/views/system/dict/index'),
-      //   meta: { title: 'dictMgr' }
       // },
       // {
       //   path: 'cfg',
