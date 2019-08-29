@@ -33,23 +33,24 @@
         </el-table-column>
         <el-table-column
           prop="id"
-          label="ID">
-        </el-table-column>
-        <el-table-column
-          prop="description"
-          label="字典类型描述">
-        </el-table-column>
-        <el-table-column
-          prop="label"
-          label="字典文本描述">
+          label="ID"
+          width="55">
         </el-table-column>
         <el-table-column
           prop="type"
           label="字典码">
         </el-table-column>
         <el-table-column
+          prop="description"
+          label="字典码描述">
+        </el-table-column>
+        <el-table-column
           prop="value"
           label="字典值">
+        </el-table-column>
+        <el-table-column
+          prop="label"
+          label="字典值描述">
         </el-table-column>
         <el-table-column
           prop="sort"
@@ -70,8 +71,20 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
 
+      <div class="block">
+        <span class="demonstration">完整功能</span>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage4"
+          :page-sizes="[100, 200, 300, 400]"
+          :page-size="100"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="400">
+        </el-pagination>
+      </div>
+    </div>
 
     <el-dialog title="新增字典" :visible.sync="dialog.dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="dictForm">
