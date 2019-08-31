@@ -1,212 +1,231 @@
 <template>
   <div class="app-container">
-    <div class="block">
-      <el-row  :gutter="20">
-        <el-col :span="6">
-          <el-input v-model="listQuery.account" placeholder="请输入帐号"></el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-input v-model="listQuery.name" placeholder="请输入姓名"></el-input>
-        </el-col>
-        <el-col :span="6">
-          <el-button type="success" icon="el-icon-search" @click.native="search">{{ $t('button.search') }}</el-button>
-          <el-button type="primary" icon="el-icon-refresh" @click.native="reset">{{ $t('button.reset') }}</el-button>
-        </el-col>
-      </el-row>
-      <br>
-      <el-row>
-        <el-col :span="24">
-          <el-button type="success" icon="el-icon-plus" @click.native="add" v-permission="['/mgr/add']">
-            {{$t('button.add') }}
-          </el-button>
-          <el-button type="primary" icon="el-icon-edit" @click.native="edit" v-permission="['/mgr/edit']">
-            {{$t('button.edit') }}
-          </el-button>
-          <el-button type="danger" icon="el-icon-delete" @click.native="remove" v-permission="['/mgr/delete']">
-            {{$t('button.delete') }}
-          </el-button>
-          <el-button type="info" icon="el-icon-role" @click.native="openRole">角色分配</el-button>
-        </el-col>
-      </el-row>
+    <div class="search-area">
+      <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+        <el-form-item v-for="item in searchFields" :key="item.fieldName" :label="item.fieldDesc">
+          <el-input v-if="!item.type || item.type==='input'" v-model="searchForm[item.fieldName]" :placeholder="item.placeholder || '请输入' + item.fieldDesc"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="success" icon="el-icon-search" @click="query">查询</el-button>
+          <el-button type="primary" icon="el-icon-refresh" @click="reset">重置</el-button>
+        </el-form-item>
+      </el-form>
     </div>
 
+    <div class="filter-container">
+      <el-button type="primary" icon="el-icon-plus" @click="openDialog">添加</el-button>
+      <el-button type="danger" icon="el-icon-delete" @click="batchDel">批量删除</el-button>
+    </div>
 
-    <el-table :data="list" v-loading="listLoading" element-loading-text="Loading" border fit highlight-current-row
-    @current-change="handleCurrentChange">
+    <div class="table-area">
+      <el-table
+        :data="tableData"
+        ref="multipleTable"
+        @selection-change="handleSelectionChange"
+        stripe
+        style="width: 100%">
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
+        <el-table-column
+          v-for="item in tableConfig.tableFields"
+          :prop="item.prop"
+          :label="item.label"
+          :key="item.prop">
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              @click="openDialog(scope.$index, scope.row)">编辑
+            </el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)">删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
 
-      <el-table-column label="账号">
-        <template slot-scope="scope">
-          {{scope.row.account}}
-        </template>
-      </el-table-column>
-      <el-table-column label="姓名">
-        <template slot-scope="scope">
-          {{scope.row.name}}
-        </template>
-      </el-table-column>
-      <el-table-column label="性别">
-        <template slot-scope="scope">
-          {{scope.row.sexName}}
-        </template>
-      </el-table-column>
-      <el-table-column label="角色">
-        <template slot-scope="scope">
-          {{scope.row.roleName}}
-        </template>
-      </el-table-column>
-      <el-table-column label="部门">
-        <template slot-scope="scope">
-          {{scope.row.deptName}}
-        </template>
-      </el-table-column>
-      <el-table-column label="邮箱">
-        <template slot-scope="scope">
-          {{scope.row.email}}
-        </template>
-      </el-table-column>
-      <el-table-column label="电话">
-        <template slot-scope="scope">
-          {{scope.row.phone}}
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间">
-        <template slot-scope="scope">
-          {{scope.row.createtime}}
-        </template>
-      </el-table-column>
-      <el-table-column label="状态">
-        <template slot-scope="scope">
-          {{scope.row.statusName}}
-        </template>
-      </el-table-column>
-
-
-    </el-table>
-
-    <el-pagination
-      background
-      layout="total, sizes, prev, pager, next, jumper"
-      :page-sizes="[10, 20, 50, 100,500]"
-      :page-size="listQuery.limit"
-      :total="total"
-      @size-change="changeSize"
-      @current-change="fetchPage"
-      @prev-click="fetchPrev"
-      @next-click="fetchNext">
-    </el-pagination>
-
-    <el-dialog
-      :title="formTitle"
-      :visible.sync="formVisible"
-      width="70%">
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="账户" prop="account">
-              <el-input v-model="form.account" minlength=1></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="姓名" prop="name">
-              <el-input v-model="form.name"  minlength=1></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="12">
-            <el-form-item label="性别">
-              <el-radio-group v-model="form.sex">
-                <el-radio :label="1">男</el-radio>
-                <el-radio :label="2">女</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="form.email"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" v-show="isAdd">
-            <el-form-item label="密码" prop="password">
-              <el-input v-model="form.password"  type="password"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" v-show="isAdd">
-            <el-form-item label="确认密码" prop="rePassword">
-              <el-input v-model="form.rePassword"  type="password"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="电话" prop="phone">
-              <el-input v-model="form.phone"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="所属部门" >
-              <el-input
-                placeholder="请选择所属部门"
-                v-model="form.deptName"
-                readonly="readonly"
-                @click.native="deptTree.show  = !deptTree.show">
-              </el-input>
-              <el-tree v-if="deptTree.show"
-                       empty-text="暂无数据"
-                       :expand-on-click-node="false"
-                       :data="deptTree.data"
-                       :props="deptTree.defaultProps"
-                       @node-click="handleNodeClick"
-                       class="input-tree">
-              </el-tree>
-
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="是否启用" prop="status">
-              <el-switch v-model="form.status"></el-switch>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="出生日期">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.birthday" style="width: 100%;">
-
-                </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="saveUser">{{ $t('button.submit') }}</el-button>
-          <el-button @click.native="formVisible = false">{{ $t('button.cancel') }}</el-button>
+    <el-dialog title="新增字典" :visible.sync="dialog.dialogFormVisible">
+      <el-form :model="form" :rules="rules" ref="dictForm">
+        <el-form-item prop="type" label="字典码" :label-width="formLabelWidth">
+          <el-input v-model="form.type"></el-input>
+        </el-form-item>
+        <el-form-item prop="description" label="字典码描述" :label-width="formLabelWidth">
+          <el-input v-model="form.description"></el-input>
+        </el-form-item>
+        <el-form-item prop="value" label="字典值" :label-width="formLabelWidth">
+          <el-input v-model="form.value"></el-input>
+        </el-form-item>
+        <el-form-item prop="label" label="字典值描述" :label-width="formLabelWidth">
+          <el-input v-model="form.label"></el-input>
+        </el-form-item>
+        <el-form-item prop="sort" label="排序" :label-width="formLabelWidth">
+          <el-input v-model="form.sort" @keyup.native="formateNumber()"></el-input>
+        </el-form-item>
+        <el-form-item prop="remarks" label="备注" :label-width="formLabelWidth">
+          <el-input v-model="form.remarks"></el-input>
         </el-form-item>
       </el-form>
-    </el-dialog>
-
-    <el-dialog
-      title="角色分配"
-      :visible.sync="roleDialog.visible"
-      width="25%">
-      <el-form>
-        <el-row>
-          <el-col :span="12">
-            <el-tree
-              :data="roleDialog.roles"
-              ref="roleTree"
-              show-checkbox
-              node-key="id"
-              :default-checked-keys="roleDialog.checkedRoleKeys"
-              :props="roleDialog.defaultProps">
-            </el-tree>
-
-          </el-col>
-        </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="setRole">{{ $t('button.submit') }}</el-button>
-        </el-form-item>
-      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialog.dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="sure()">确 定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
 
-<script src="./user.js"></script>
-<style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/common.scss";
-</style>
+<script>
+  import userApi from '@/api/system/user'
+  import confirm from '@/utils/confirm'
+  import message from '@/utils/message'
 
+  export default {
+    name: 'dict',
+    data() {
+      return {
+        searchFields: [
+          { fieldName: 'type', fieldDesc: '字典码', type: 'input' },
+          { fieldName: 'description', fieldDesc: '字典码描述', type: 'input' }],
+        searchForm: {
+          current: 1,
+          size: 10
+        },
+        tableConfig: {
+          tableFields: [
+            { prop: 'id', label: 'ID', width: 55 },
+            { prop: 'type', label: '字典码' },
+            { prop: 'description', label: '字典码描述' },
+            { prop: 'value', label: '字典值' },
+            { prop: 'label', label: '字典值描述' },
+            { prop: 'sort', label: '排序' }]
+        },
+        form: {
+          label: '',
+          type: '',
+          description: '',
+          value: '',
+          remarks: '',
+          sort: ''
+        },
+        rules: {
+          label: [{ required: true, message: '标签名必填', trigger: 'blur' }],
+          type: [{ required: true, message: '字典类型必填', trigger: 'blur' }],
+          description: [{ required: true, message: '字典描述必填', trigger: 'blur' }],
+          value: [{ required: true, message: '字典值必填', trigger: 'blur' }],
+          sort: [{ required: true, message: '排序必填', trigger: 'blur' }]
+        },
+        dialog: {
+          dialogFormVisible: false
+        },
+        tableData: [],
+        formLabelWidth: '120px',
+        multipleSelection: []
+      }
+    },
+    methods: {
+      query() {
+        userApi.page(this.searchForm).then(res => {
+          this.tableData = res.data.records
+        })
+      },
+      openDialog(_index, row) {
+        if (row) {
+          userApi.get(row.id).then(res => {
+            this.form = res.data
+            this.dialog.dialogFormVisible = true
+          })
+        } else {
+          resetData(this)
+          this.dialog.dialogFormVisible = true
+        }
+      },
+      handleDelete(_index, row) {
+        const _this = this
+        confirm.confirm(_this, {
+          success: function() {
+            userApi.del(row.id).then(res => {
+              message.show()
+              _this.query()
+            })
+          }
+        })
+      },
+      batchDel() {
+        const _this = this
+        if (_this.multipleSelection.length > 0) {
+          confirm.confirm(_this, {
+            success: function() {
+              const ids = []
+              for (const i in _this.multipleSelection) {
+                ids.push(_this.multipleSelection[i].id)
+              }
+              userApi.batchDel(ids).then(res => {
+                message.show()
+                _this.query()
+              })
+            }
+          })
+        }
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val
+      },
+      sure() {
+        const _this = this
+        _this.$refs['dictForm'].validate((valid) => {
+          if (valid) {
+            const id = _this.form.id
+            if (id) {
+              userApi.update(_this.form).then(res => {
+                message.show()
+                _this.dialog.dialogFormVisible = false
+                _this.query()
+              })
+            } else {
+              userApi.save(_this.form).then(res => {
+                message.show()
+                _this.dialog.dialogFormVisible = false
+                _this.query()
+              })
+            }
+          }
+        })
+      },
+      reset() {
+        this.searchForm = {
+          type: '',
+          description: '',
+          current: 1,
+          size: 10
+        }
+        this.search()
+      },
+      formateNumber() {
+        this.form.sort = this.form.sort.replace(/[^\.\d]/g, '')
+        this.form.sort = this.form.sort.replace('.', '')
+      }
+    },
+    created() {
+      this.query()
+    }
+  }
+  const resetData = function(_this) {
+    _this.form = {
+      label: '',
+      type: '',
+      description: '',
+      value: '',
+      remarks: '',
+      sort: ''
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>

@@ -95,7 +95,13 @@ export const asyncRouterMap = [
         name: 'Dict',
         component: () => import('@/views/system/dict/index'),
         meta: { title: '字典管理' }
-      }// ,
+      },
+      {
+        path: 'user',
+        name: 'User',
+        component: () => import('@/views/system/user/index'),
+        meta: { title: '用户管理' }
+      }
       // {
       //   path: 'dept',
       //   name: 'Department',

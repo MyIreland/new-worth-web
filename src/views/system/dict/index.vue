@@ -1,5 +1,5 @@
 <template>
-  <div class="components-container">
+  <div class="app-container">
     <div class="search-area">
       <el-form :inline="true" :model="searchForm" class="demo-form-inline">
         <el-form-item v-for="item in searchFields" :key="item.fieldName" :label="item.fieldDesc">
@@ -83,15 +83,8 @@
   import dictApi from '@/api/system/dict'
   import confirm from '@/utils/confirm'
   import message from '@/utils/message'
-  import baseSearch from '@/components/Table/BaseSearch'
-  import baseTable from '@/components/Table/BaseTable'
-
   export default {
-    name: 'index',
-    components: {
-      baseSearch,
-      baseTable
-    },
+    name: 'dict',
     data() {
       return {
         searchFields: [
@@ -214,7 +207,7 @@
       formateNumber() {
         this.form.sort = this.form.sort.replace(/[^\.\d]/g, '')
         this.form.sort = this.form.sort.replace('.', '')
-      },
+      }
     },
     created() {
       this.query()

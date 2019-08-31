@@ -1,35 +1,50 @@
 import request from '@/utils/request'
-
-export function getList(params) {
+const T = {}
+T.page = function(data) {
   return request({
-    url: '/user/list',
-    method: 'get',
-    params
-  })
-}
-
-export function saveUser(params) {
-  return request({
-    url: '/user',
+    url: 'api/user/page',
     method: 'post',
-    params
+    data
   })
 }
 
-export function remove(userId) {
+T.add = function(data) {
   return request({
-    url: '/user',
-    method: 'delete',
-    params: {
-      userId
-    }
+    url: 'api/user',
+    method: 'post',
+    dataType: 'json',
+    data
   })
 }
 
-export function setRole(params) {
+T.update = function(data) {
   return request({
-    url: '/user/setRole',
-    method: 'get',
-    params
+    url: 'api/user',
+    method: 'put',
+    dataType: 'json',
+    data
   })
 }
+
+T.del = function(userId) {
+  return request({
+    url: 'api/user/' + userId,
+    method: 'delete'
+  })
+}
+
+T.get = function(userId) {
+  return request({
+    url: 'api/user/' + userId,
+    method: 'get'
+  })
+}
+
+T.setRole = function(data) {
+  return request({
+    url: 'api/user/setRole',
+    method: 'post',
+    data
+  })
+}
+export default T
