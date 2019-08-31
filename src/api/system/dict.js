@@ -45,6 +45,7 @@ T.batchDel = function(ids) {
   return request({
     url: 'api/dict/batchDel',
     method: 'post',
+    dataType: 'json',
     data: {
       ids: ids
     }
