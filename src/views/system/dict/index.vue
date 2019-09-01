@@ -48,6 +48,8 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <BasePagination :pagination="pagination"></BasePagination>
     </div>
 
     <el-dialog title="新增字典" :visible.sync="dialog.dialogFormVisible">
@@ -83,8 +85,12 @@
   import dictApi from '@/api/system/dict'
   import confirm from '@/utils/confirm'
   import message from '@/utils/message'
+  import BasePagination from '@/components/Table/BasePagination'
   export default {
     name: 'dict',
+    components: {
+      BasePagination
+    },
     data() {
       return {
         searchFields: [
@@ -93,6 +99,12 @@
         searchForm: {
           current: 1,
           size: 10
+        },
+        pagination: {
+          total: 0,
+          current: 1,
+          pageSize: 20,
+          pageSizes: [20, 50, 100, 150, 200]
         },
         tableConfig: {
           tableFields: [
@@ -128,8 +140,13 @@
     },
     methods: {
       query() {
+        this.searchForm.current = this.pagination.current
+        this.searchForm.size = this.pagination.pageSize
         dictApi.page(this.searchForm).then(res => {
-          this.tableData = res.data.records
+          const data = res.data
+          this.pagination.current = data.current
+          this.pagination.total = data.total
+          this.tableData = data.records
         })
       },
       openDialog(_index, row) {
@@ -173,6 +190,15 @@
       },
       handleSelectionChange(val) {
         this.multipleSelection = val
+      },
+      handleSizeChange(val) {
+        this.pagination.current = 1
+        this.pagination.pageSize = val
+        this.query()
+      },
+      handleCurrentChange(val) {
+        this.pagination.current = val
+        this.query()
       },
       sure() {
         const _this = this

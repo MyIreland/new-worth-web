@@ -61,7 +61,7 @@ service.interceptors.response.use(
     return response.data
   },
   error => {
-    console.log('err' + error) // for debug
+    console.log(error) // for debug
     const errorData = error.response.data
     const msg = errorData.msg || errorData.message || errorData.error_description || '未知错误！'
     message.error(msg)
