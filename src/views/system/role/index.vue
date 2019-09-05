@@ -46,7 +46,7 @@
             <el-button
               size="mini"
               type="success"
-              @click="bindPermissions(scope.$index, scope.row)">授权资源
+              @click="openTreeDialog(scope.$index, scope.row)">授权资源
             </el-button>
             <el-button
               size="mini"
@@ -89,11 +89,32 @@
         <el-button type="primary" @click="sure()">确 定</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      title="绑定资源"
+      :visible.sync="treeDialog.visible"
+      width="30%"
+      center>
+      <el-tree
+        :data="treeDialog.data"
+        show-checkbox
+        ref="menuSelected"
+        :props="treeDialog.defaultProps"
+        node-key="id">
+      </el-tree>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="treeDialog.visible = false">取 消</el-button>
+        <el-button type="primary" @click="bindPermissions()">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
   import { add, update, get, del, page } from '@/api/system/role'
+  import { getMenuIdsByRoleId, bindRoleMenu } from '@/api/system/roleMenu'
+  import menuApi from '@/api/system/menu'
   import confirm from '@/utils/confirm'
   import message from '@/utils/message'
   import BasePagination from '@/components/Table/BasePagination'
@@ -126,6 +147,15 @@
             roleCode: [{ required: true, message: '角色编码必填', trigger: 'blur' }],
             roleType: [{ required: true, message: '角色类型必填', trigger: 'blur' }]
           }
+        },
+        treeDialog: {
+          id: 0,
+          visible: false,
+          defaultProps: {
+            children: 'children',
+            label: 'label'
+          },
+          data: []
         },
         searchFields: [
           { key: 'roleName', label: '角色名称', type: 'input' },
@@ -179,7 +209,28 @@
         this.pagination.current = val
         this.query()
       },
-      bindPermissions() {},
+      openTreeDialog(_index, row) {
+        const _this = this
+        initMenuTree(_this)
+        const id = row.id
+        if (id) {
+          _this.treeDialog.id = id
+          getMenuIdsByRoleId(id).then(res => {
+            _this.$refs.menuSelected.setCheckedKeys(res.data)
+          })
+          _this.treeDialog.visible = true
+        }
+      },
+      bindPermissions() {
+        const _this = this
+        const roleId = _this.treeDialog.id
+        if (roleId) {
+          bindRoleMenu({ roleId: roleId, menuIds: _this.$refs.menuSelected.getCheckedKeys() }).then(res => {
+            message.show()
+          })
+        }
+        _this.treeDialog.visible = false
+      },
       handleDelete(_index, row) {
         const _this = this
         confirm.confirm(_this, {
@@ -229,8 +280,13 @@
       roleDesc: ''
     }
   }
+
+  const initMenuTree = function(_this) {
+    if (_this.treeDialog.data.length === 0) {
+      menuApi.tree().then(res => {
+        _this.treeDialog.data = res.data
+      })
+    }
+  }
 </script>
 
-<style scoped>
-
-</style>

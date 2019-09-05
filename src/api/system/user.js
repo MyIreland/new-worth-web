@@ -17,6 +17,15 @@ T.add = function(data) {
   })
 }
 
+T.batchDel = function(data) {
+  return request({
+    url: 'api/user/batchDel',
+    method: 'post',
+    dataType: 'json',
+    data
+  })
+}
+
 T.update = function(data) {
   return request({
     url: 'api/user',

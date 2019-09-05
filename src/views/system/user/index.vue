@@ -14,7 +14,7 @@
 
     <div class="filter-container">
       <el-button type="primary" icon="el-icon-plus" @click="openDialog">添加</el-button>
-      <el-button type="danger" icon="el-icon-delete" @click="batchDel" v-show="false">批量删除</el-button>
+      <el-button type="danger" icon="el-icon-delete" @click="batchDel">批量删除</el-button>
     </div>
 
     <div class="table-area">
