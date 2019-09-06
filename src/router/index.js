@@ -76,80 +76,30 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '#',
     name: 'System',
-    alwaysShow: true,
+    alwaysShow: true, // will always show the root menu
     meta: {
       title: '系统管理',
       icon: 'table'
     },
     children: [
-      {
-        path: 'menu',
-        name: 'Menu',
-        component: () => import('@/views/system/menu/index'),
-        meta: {
-          title: '菜单管理'
-        }
-      },
-      {
-        path: 'dict',
-        name: 'Dict',
-        component: () => import('@/views/system/dict/index'),
-        meta: { title: '字典管理' }
-      },
-      {
-        path: 'user',
-        name: 'User',
-        component: () => import('@/views/system/user/index'),
-        meta: { title: '用户管理' }
-      },
-      {
-        path: 'role',
-        name: 'Role',
-        component: () => import('@/views/system/role/index'),
-        meta: { title: '角色管理' }
-      }
-      // {
-      //   path: 'dept',
-      //   name: 'Department',
-      //   component: () => import('@/views/system/dept/index'),
-      //   meta: {
-      //     title: 'deptMgr'
-      //   }
-      // },
-      // {
-      //   path: 'mgr',
-      //   name: 'Account',
-      //   component: () => import('@/views/system/user/index'),
-      //   meta: {title: 'userMgr' }
-      // },
-      // {
-      //   path: 'role',
-      //   name: 'roleMgr',
-      //   component: () => import('@/views/system/role/index'),
-      //   meta: { title: 'roleMgr' }
-      // },
-      // {
-      //   path: 'task',
-      //   name: 'Task',
-      //   component: () => import('@/views/system/task/index'),
-      //   meta: { title: 'taskMgr' },
-      // },
-      // {
-      //   path: 'taskLog',
-      //   name: 'taskLog',
-      //   component: () => import('@/views/system/task/taskLog.vue'),
-      //   hidden: true,
-      //   meta: { title: 'taskLog' }
-      //
-      // },
-      // {
-      //   path: 'cfg',
-      //   name: 'Config',
-      //   component: () => import('@/views/system/cfg/index'),
-      //   meta: {
-      //     title: 'configMgr'
-      //   }
-      // }
+      { path: 'menu', name: 'Menu', component: () => import('@/views/system/menu/index'), meta: { title: '菜单管理' }},
+      { path: 'dict', name: 'Dict', component: () => import('@/views/system/dict/index'), meta: { title: '字典管理' }},
+      { path: 'user', name: 'User', component: () => import('@/views/system/user/index'), meta: { title: '用户管理' }},
+      { path: 'role', name: 'Role', component: () => import('@/views/system/role/index'), meta: { title: '角色管理' }}
+    ]
+  },
+  {
+    path: '/platform',
+    component: Layout,
+    redirect: '#',
+    name: 'Platform',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '平台管理',
+      icon: 'table'
+    },
+    children: [
+      { path: 'org', name: 'Org', component: () => import('@/views/platform/org/index'), meta: { title: '公司管理' }}
     ]
   },
   {

@@ -129,6 +129,18 @@ code {
 //main-container全局样式
 .app-container {
   padding: 20px;
+  .search-area {
+    position: relative;
+    .search-form {
+      width: 80%;
+    }
+    .search-button {
+      width: 20%;
+      position: absolute;
+      right: 0;
+      top: 0px;
+    }
+  }
 }
 
 .pagination-area {

@@ -4,8 +4,8 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="pagination.current"
-      :page-sizes="pagination.pageSizes"
       :page-size="pagination.pageSize"
+      :page-sizes="pageSizes"
       layout="sizes, prev, pager, next, total, jumper"
       :total="pagination.total">
     </el-pagination>
@@ -21,11 +21,14 @@
         default: () => {
           return {
             current: 1,
-            pageSizes: [20, 50, 100, 150, 200],
             pageSize: 20,
             total: 0
           }
         }
+      },
+      pageSizes: {
+        type: Array,
+        default: () => [20, 50, 100, 150, 200]
       }
     },
     methods: {
