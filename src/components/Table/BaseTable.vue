@@ -1,7 +1,7 @@
 <template>
   <div class="table-component">
     <div class="filter-container">
-      <el-button type="primary" icon="el-icon-plus" @click="openDialog">添加</el-button>
+      <el-button type="primary" icon="el-icon-plus" @click="addOrUpdate">添加</el-button>
       <el-button type="danger" icon="el-icon-delete" @click="batchDel">批量删除</el-button>
     </div>
 
@@ -27,7 +27,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="openDialog(scope.$index, scope.row)">编辑
+              @click="addOrUpdate(scope.$index, scope.row)">编辑
             </el-button>
             <el-button
               size="mini"
@@ -60,8 +60,8 @@
       }
     },
     methods: {
-      openDialog(_index, row) {
-        this.$parent.openDialog(_index, row)
+      addOrUpdate(_index, row) {
+        this.$parent.addOrUpdate(_index, row)
       },
       batchDel() {
         this.$parent.batchDel(this.multipleSelection)

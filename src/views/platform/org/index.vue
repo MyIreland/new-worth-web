@@ -7,7 +7,7 @@
 
     <BasePagination :pagination="pagination"></BasePagination>
 
-    <BaseDialog :title="dialog.title" :fields="dialog.fields" :form="dialog.form" :rules="dialog.rules" :show.sync="dialog.show"></BaseDialog>
+    <BaseDialog ref="addDialog" :title="dialog.title" :fields="dialog.fields" :form="dialog.form" :rules="dialog.rules"></BaseDialog>
   </div>
 </template>
 
@@ -53,13 +53,12 @@
         },
         dialog: {
           title: '新增公司',
-          show: false,
           fields: [
             { key: 'name', label: '公司名称', type: 'input' },
             { key: 'briefName', label: '公司简称', type: 'input' },
-            { key: 'type', label: '公司类型', type: 'input', options: companyTypes },
+            { key: 'type', label: '公司类型', type: 'select', options: companyTypes },
             { key: 'phone', label: '电话', type: 'input' },
-            { key: 'email', label: '邮箱', type: 'select' }
+            { key: 'email', label: '邮箱', type: 'input' }
           ],
           rules: {
             name: [{ required: true, message: '公司名称必填', trigger: 'blur' }],
@@ -99,19 +98,17 @@
           _this.tableData = data.records
         })
       },
-      openDialog(_index, row) {
+      addOrUpdate(_index, row) {
         const _this = this
         if (row) {
           get(row.id).then(res => {
             _this.dialog.form = res.data
-            _this.dialog.show = true
+            _this.$refs.addDialog.showDialog(true)
           })
         } else {
           resetData(_this)
-          _this.dialog.show = true
+          _this.$refs.addDialog.showDialog(true)
         }
-      },
-      roleIdsChange(val) {
       },
       handleDelete(_index, row) {
         const _this = this
@@ -150,29 +147,25 @@
         this.pagination.current = val
         this.$refs.baseSearch.query()
       },
-      sure() {
+      dialogSure() {
         const _this = this
-        _this.$refs['userForm'].validate((valid) => {
-          if (valid) {
-            const id = _this.dialog.form.id
-            if (id) {
-              update(_this.dialog.form).then(res => {
-                message.show()
-                _this.dialog.show = false
-                _this.$refs.baseSearch.query()
-              })
-            } else {
-              add(_this.dialog.form).then(res => {
-                message.show()
-                _this.dialog.show = false
-                _this.$refs.baseSearch.query()
-              })
-            }
-          }
-        })
+        const id = _this.dialog.form.id
+        if (id) {
+          update(_this.dialog.form).then(res => {
+            message.show()
+            _this.$refs.addDialog.showDialog(false)
+            _this.$refs.baseSearch.query()
+          })
+        } else {
+          add(_this.dialog.form).then(res => {
+            message.show()
+            _this.$refs.addDialog.showDialog(false)
+            _this.$refs.baseSearch.query()
+          })
+        }
       },
       dialogCancel() {
-        this.dialog.show = false
+        this.$refs.addDialog.showDialog(false)
       }
     },
     created() {

@@ -1,7 +1,7 @@
 <template>
   <div class="base-dialog">
     <el-dialog :title="title" :visible.sync="show">
-      <el-form :model="form" :rules="rules" ref="userForm">
+      <el-form :model="form" :rules="rules" ref="form">
         <el-form-item v-for="item in fields" :key="item.key" :label="item.label" :prop="item.key"
                       :label-width="formLabelWidth">
           <el-input v-if="!item.type || item.type==='input'" v-model="form[item.key]"
@@ -29,11 +29,6 @@
   export default {
     name: 'BaseDialog',
     props: {
-      show: {
-        type: Boolean,
-        required: true,
-        twoWay: true
-      },
       title: {
         type: String,
         default: ''
@@ -45,20 +40,37 @@
       rules: {
         type: Object,
         default: () => {}
+      },
+      form: {
+        type: Object,
+        default: () => {}
       }
     },
     data() {
       return {
         formLabelWidth: '120px',
-        form: {}
+        show: false
       }
     },
     methods: {
       dialogSure() {
-        this.$parent.dialogSure(this.form)
+        const _this = this
+        _this.$refs['form'].validate((valid) => {
+          if (valid) {
+            _this.$parent.dialogSure(_this.form)
+          }
+        })
+      },
+      showDialog(showFlag) {
+        const _this = this
+        if (showFlag !== undefined) {
+          _this.show = showFlag
+        } else {
+          _this.show = !_this.show
+        }
       },
       dialogCancel() {
-        this.show = false
+        this.showDialog(false)
       }
     }
   }
