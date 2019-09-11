@@ -7,7 +7,7 @@
             <el-input v-if="!item.type || item.type==='input'" v-model="searchForm[item.key]"
                       :placeholder="item.placeholder || '请输入' + item.label"></el-input>
 
-            <el-select v-else-if="item.type==='select'" v-model="searchForm[item.key]" :multiple="item.multiple"
+            <el-select clearable v-else-if="item.type==='select'" v-model="searchForm[item.key]" :multiple="item.multiple"
                        :placeholder="item.placeholder || '请选择' + item.label">
               <el-option
                 v-for="each in item.options"
@@ -40,6 +40,7 @@
           style="width: 100%">
           <el-table-column
             type="selection"
+            fixed
             width="55">
           </el-table-column>
           <el-table-column
@@ -47,12 +48,19 @@
             :prop="item.prop"
             :label="item.label"
             :key="item.prop"
-            :width="item.width">
+            :width="item.width"
+            :fixed="item.fixed">
           </el-table-column>
-          <el-table-column label="操作" fixed="right" width="150">
+          <el-table-column label="操作" fixed="right" width="250">
             <template slot-scope="scope">
               <el-button
                 size="mini"
+                :type="scope.row.jobStatus === '0' ? 'success' : 'danger'"
+                @click="changeStatus(scope.$index, scope.row)">{{scope.row.jobStatus === '0' ? "开启" : "关闭"}}
+              </el-button>
+              <el-button
+                size="mini"
+                type="primary"
                 @click="openDialog(scope.$index, scope.row)">编辑
               </el-button>
               <el-button
@@ -107,7 +115,7 @@
 </template>
 
 <script>
-  import { page, get, add, update, del, batchDel } from '@/api/platform/org'
+  import { page, get, add, update, del, batchRemove, changeStatus } from '@/api/system/task'
   import confirm from '@/utils/confirm'
   import message from '@/utils/message'
 
@@ -125,14 +133,14 @@
           { key: 'jobStatus', label: '任务状态', type: 'select', options: statusTypes }
         ],
         tableFields: [
-          { prop: 'id', label: 'ID', width: 50 },
-          { prop: 'jobName', label: '任务名称' },
-          { prop: 'jobGroup', label: '任务分组' },
-          { prop: 'jobStatus', label: '任务状态', width: 50 },
-          { prop: 'cronExpression', label: '表达式' },
-          { prop: 'beanName', label: '实体名称' },
-          { prop: 'gmtCreate', label: '创建时间' },
-          { prop: 'description', label: '任务描述' }
+          { prop: 'id', label: 'ID', width: 50, fixed: true },
+          { prop: 'jobName', label: '任务名称', width: 100, fixed: true },
+          { prop: 'jobGroup', label: '任务分组', width: 80, fixed: true },
+          { prop: 'jobStatus', label: '任务状态', width: 100 },
+          { prop: 'cronExpression', label: '表达式', width: 100 },
+          { prop: 'beanClass', label: '实体类', width: 300 },
+          { prop: 'gmtCreate', label: '创建时间', width: 200 },
+          { prop: 'description', label: '任务描述', width: 300 }
         ],
         dialog: {
           show: false,
@@ -141,14 +149,14 @@
             { key: 'jobName', label: '任务名称', type: 'input' },
             { key: 'jobGroup', label: '任务分组', type: 'select', options: groupTypes },
             { key: 'cronExpression', label: '表达式', type: 'input' },
-            { key: 'beanName', label: '实体名称', type: 'input' },
+            { key: 'beanClass', label: '实体类', type: 'input' },
             { key: 'description', label: '任务描述', type: 'input' }
           ],
           rules: {
             jobName: [{ required: true, message: '任务名称', trigger: 'blur' }],
             jobGroup: [{ required: true, message: '任务分组', trigger: 'blur' }],
             cronExpression: [{ required: true, message: '表达式', trigger: 'blur' }],
-            beanName: [{ required: true, message: '实体名称', trigger: 'blur' }]
+            beanClass: [{ required: true, message: '实体类名称', trigger: 'blur' }]
           },
           form: {
             name: '',
@@ -170,6 +178,22 @@
       }
     },
     methods: {
+      changeStatus(_index, row) {
+        const _this = this
+        if (row.id) {
+          // 状态取反
+          confirm.confirm(_this, {
+            success: function() {
+              let jobStatus = row.jobStatus
+              jobStatus = jobStatus === '0' ? '1' : '0'
+              changeStatus({ jobId: row.id, status: jobStatus }).then(res => {
+                message.show()
+                _this.query()
+              })
+            }
+          })
+        }
+      },
       query() {
         const _this = this
         _this.searchForm.current = _this.pagination.current
@@ -217,7 +241,7 @@
               for (const i in data) {
                 ids.push(data[i].id)
               }
-              batchDel(ids).then(res => {
+              batchRemove(ids).then(res => {
                 message.show()
                 _this.$refs.baseSearch.query()
               })
@@ -259,6 +283,7 @@
       }
     },
     created() {
+      this.query()
     }
   }
 

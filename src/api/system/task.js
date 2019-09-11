@@ -1,55 +1,68 @@
 import request from '@/utils/request'
 
-export function getList(params) {
+export function page(data) {
   return request({
-    url: '/task/list',
-    method: 'get',
-    params
-  })
-}
-
-export function save(params) {
-  return request({
-    url: '/task',
+    url: 'api/task/page',
     method: 'post',
-    params
+    data
   })
 }
 
-export function remove(id) {
+export function add(data) {
   return request({
-    url: '/task',
-    method: 'delete',
-    params: {
-      id: id
+    url: 'api/task',
+    method: 'post',
+    dataType: 'json',
+    data
+  })
+}
+
+export function del(id) {
+  return request({
+    url: 'api/task/' + id,
+    method: 'delete'
+  })
+}
+
+export function get(id) {
+  return request({
+    url: 'api/task/' + id,
+    method: 'get'
+  })
+}
+
+export function batchRemove(ids) {
+  return request({
+    url: 'api/task/batchRemove',
+    method: 'post',
+    dataType: 'json',
+    data: {
+      ids: ids
     }
   })
 }
 
-export function logList(params) {
+export function changeStatus(data) {
   return request({
-    url: '/task/logList',
-    method: 'get',
-    params
+    url: 'api/task/changeStatus',
+    method: 'post',
+    data
   })
 }
 
-export function enable(id) {
+export function updateCron(data) {
   return request({
-    url: '/task/enable/',
-    method: 'POST',
-    params: {
-      taskId: id
-    }
+    url: 'api/task/updateCron',
+    method: 'post',
+    data
   })
 }
 
-export function disable(id) {
+export function update(data) {
   return request({
-    url: '/task/disable/',
-    method: 'POST',
-    params: {
-      taskId: id
-    }
+    url: 'api/task',
+    method: 'put',
+    dataType: 'json',
+    data
   })
 }

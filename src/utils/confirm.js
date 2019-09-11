@@ -5,7 +5,7 @@ T.confirm = function(_this, param) {
   const title = param.title || '是否执行该操作吗？'
   const type = param.type || 'warning'
   const successFun = param.success || message.show
-  const errorFun = param.error || message.error
+  const errorFun = param.error || function() {}
   _this.$confirm(title, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',

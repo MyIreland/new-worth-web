@@ -6,7 +6,7 @@
           <el-input v-if="!item.type || item.type==='input'" v-model="searchForm[item.key]"
                     :placeholder="item.placeholder || '请输入' + item.label"></el-input>
 
-          <el-select v-else-if="item.type==='select'" v-model="searchForm[item.key]" :multiple="item.multiple"
+          <el-select clearable v-else-if="item.type==='select'" v-model="searchForm[item.key]" :multiple="item.multiple"
                      :placeholder="item.placeholder || '请选择' + item.label">
             <el-option
               v-for="each in item.options"
