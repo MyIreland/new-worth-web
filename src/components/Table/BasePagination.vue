@@ -28,7 +28,7 @@
       },
       pageSizes: {
         type: Array,
-        default: () => [20, 50, 100, 150, 200]
+        default: () => [20, 30, 50, 100, 150, 200]
       }
     },
     methods: {

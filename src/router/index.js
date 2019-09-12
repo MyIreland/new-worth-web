@@ -86,6 +86,7 @@ export const asyncRouterMap = [
       { path: 'dict', name: 'Dict', component: () => import('@/views/system/dict/index'), meta: { title: '字典管理' }},
       { path: 'user', name: 'User', component: () => import('@/views/system/user/index'), meta: { title: '用户管理' }},
       { path: 'role', name: 'Role', component: () => import('@/views/system/role/index'), meta: { title: '角色管理' }},
+      { path: 'file', name: 'File', component: () => import('@/views/system/file/index'), meta: { title: '文件管理' }},
       { path: 'task', name: 'Task', component: () => import('@/views/system/task/index'), meta: { title: '任务管理' }}
     ]
   },

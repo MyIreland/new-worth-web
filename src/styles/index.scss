@@ -141,6 +141,50 @@ code {
       top: 0px;
     }
   }
+  .imgItem {
+    cursor: pointer;
+    float: left;
+    margin: 0 12px 20px 0;
+    padding: 0 0 10px 0;
+    max-width: 100px;
+    border: 1px solid #eee;
+    text-align: center;
+    .options {
+
+    }
+    .imgContainer .imgLink {
+      width: 100px;
+      height: 100px;
+      img {
+        height:auto;
+        vertical-align: middle;
+      }
+    }
+    .imgLink {
+      text-align: center;
+      display: table-cell;
+      vertical-align: middle;
+    }
+    .imgInfo {
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      padding: 5px;
+      .name {
+        width: 90px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .description {
+        width: 90px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
 }
 
 .pagination-area {
@@ -207,4 +251,7 @@ code {
 
 .multiselect--active {
   z-index: 1000 !important;
+}
+.clearBoth{
+  clear: both;
 }
