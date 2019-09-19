@@ -105,7 +105,8 @@ export const asyncRouterMap = [
       { path: 'approval', name: 'Approval', component: () => import('@/views/platform/approval/index'), meta: { title: '审批管理' },
         redirect: '/platform/approval/model',
         children: [
-          { path: 'model', name: 'Model', component: () => import('@/views/platform/approval/model'), meta: { title: '模型管理' }}
+          { path: 'model', name: 'ApprovalModel', component: () => import('@/views/platform/approval/model'), meta: { title: '模型管理' }},
+          { path: 'task', name: 'ApprovalTask', component: () => import('@/views/platform/approval/task'), meta: { title: '任务管理' }}
         ]
       }
     ]

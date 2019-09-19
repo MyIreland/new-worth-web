@@ -1,6 +1,6 @@
 import request from '@/utils/request'
-
-export function page(data) {
+const T = {}
+T.page = function(data) {
   return request({
     url: '/api/approvalTask/page',
     method: 'post',
@@ -8,16 +8,15 @@ export function page(data) {
   })
 }
 
-export function add(data) {
+T.add = function(data) {
   return request({
-    url: 'api/approvalTask',
+    url: 'api/approvalTask/add',
     method: 'post',
-    dataType: 'json',
     data
   })
 }
 
-export function pageMyApprove(data) {
+T.pageMyApprove = function(data) {
   return request({
     url: 'api/approvalTask/pageMyApprove',
     method: 'post',
@@ -25,7 +24,7 @@ export function pageMyApprove(data) {
   })
 }
 
-export function listByUser(data) {
+T.listByUser = function(data) {
   return request({
     url: 'api/approvalTask/listByUser',
     method: 'post',
@@ -33,7 +32,7 @@ export function listByUser(data) {
   })
 }
 
-export function update(data) {
+T.update = function(data) {
   return request({
     url: 'api/approvalTask',
     method: 'put',
@@ -42,9 +41,18 @@ export function update(data) {
   })
 }
 
-export function get(id) {
+T.get = function(id) {
   return request({
     url: 'api/approvalTask/' + id,
     method: 'get'
   })
 }
+
+T.del = function(id) {
+  return request({
+    url: 'api/approvalTask/' + id,
+    method: 'delete'
+  })
+}
+
+export default T

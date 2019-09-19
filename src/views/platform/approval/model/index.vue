@@ -97,9 +97,9 @@
   import BaseSearch from '@/components/Table/BaseSearch'
   import BasePagination from '@/components/Table/BasePagination'
   import BaseTable from '@/components/Table/BaseTable'
-  import confirm from '@/utils/confirm'
   import { page, add, del, get, updateStatus, update } from '@/api/platform/approvalModel'
   import userApi from '@/api/system/user'
+  import confirm from '@/utils/confirm'
   import message from '@/utils/message'
   const modelTypes = [{ label: 'finance', value: 10 }, { label: '11', value: 11 }]
   const modelStatuses = [{ label: '禁用', value: 0 }, { label: '启用', value: 1 }]
@@ -182,7 +182,6 @@
         console.log(this.processes)
       },
       removeProcess(index) {
-        console.log(index)
         if (index !== -1) {
           this.processes.splice(index, 1)
         }
