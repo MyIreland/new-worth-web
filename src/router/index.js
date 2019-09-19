@@ -101,7 +101,13 @@ export const asyncRouterMap = [
       icon: 'table'
     },
     children: [
-      { path: 'org', name: 'Org', component: () => import('@/views/platform/org/index'), meta: { title: '公司管理' }}
+      { path: 'org', name: 'Org', component: () => import('@/views/platform/org/index'), meta: { title: '公司管理' }},
+      { path: 'approval', name: 'Approval', component: () => import('@/views/platform/approval/index'), meta: { title: '审批管理' },
+        redirect: '/platform/approval/model',
+        children: [
+          { path: 'model', name: 'Model', component: () => import('@/views/platform/approval/model'), meta: { title: '模型管理' }}
+        ]
+      }
     ]
   },
   {
@@ -230,68 +236,6 @@ export const asyncRouterMap = [
       { path: 'list', component: () => import('@/views/example/list'), name: 'articleList', meta: { title: 'articleList', icon: 'list' }}
     ]
   },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1/menu1-1',
-    name: 'nested',
-    meta: {
-      title: 'nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'menu1',
-        meta: { title: 'menu1' },
-        redirect: '/nested/menu1/menu1-1',
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'menu1-1',
-            meta: { title: 'menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'menu1-2',
-            redirect: '/nested/menu1/menu1-2/menu1-2-1',
-            meta: { title: 'menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'menu1-2-1',
-                meta: { title: 'menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'menu1-2-2',
-                meta: { title: 'menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'menu1-3',
-            meta: { title: 'menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        name: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
   {
     path: '/error',
     component: Layout,

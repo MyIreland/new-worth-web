@@ -24,7 +24,7 @@
   const statusTypes = [{ label: '已开通', value: 1 }, { label: '未开通', value: 2 }]
 
   export default {
-    name: 'dict',
+    name: 'index',
     components: {
       BasePagination,
       BaseSearch,
@@ -45,11 +45,11 @@
             { prop: 'id', label: 'ID', width: 50 },
             { prop: 'name', label: '公司名称' },
             { prop: 'briefName', label: '公司简称' },
-            { prop: 'type', label: '公司类型', width: 50 },
+            { prop: 'type', label: '公司类型' },
             { prop: 'phone', label: '电话' },
             { prop: 'email', label: '邮箱' },
             { prop: 'gmtCreate', label: '创建时间' },
-            { prop: 'status', label: '公司状态', width: 50 }]
+            { prop: 'status', label: '公司状态' }]
         },
         dialog: {
           title: '新增公司',

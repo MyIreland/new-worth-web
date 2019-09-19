@@ -255,3 +255,12 @@ code {
 .clearBoth{
   clear: both;
 }
+.base-dialog {
+  .form-item-title {
+    color: #409eff;
+    font-size: 16px;
+    font-weight: 700;
+    padding-left: 6px;
+    border-left: 3px solid #409eff;
+  }
+}
