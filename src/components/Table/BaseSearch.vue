@@ -44,7 +44,7 @@
         this.$parent.query(this.searchForm)
       },
       reset(searchForm) {
-        this.$refs[searchForm].resetFields()
+        this.searchForm = {}
         this.$parent.query(this.searchForm)
       }
     },

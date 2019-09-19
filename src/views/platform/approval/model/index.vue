@@ -98,7 +98,7 @@
   import BasePagination from '@/components/Table/BasePagination'
   import BaseTable from '@/components/Table/BaseTable'
   import confirm from '@/utils/confirm'
-  import { page, add, del, get, updateStatus } from '@/api/platform/approvalModel'
+  import { page, add, del, get, updateStatus, update } from '@/api/platform/approvalModel'
   import userApi from '@/api/system/user'
   import message from '@/utils/message'
   const modelTypes = [{ label: 'finance', value: 10 }, { label: '11', value: 11 }]
@@ -194,10 +194,17 @@
         const _this = this
         const formData = _this.dialogConfig.form
         formData.processes = _this.processes
-        add(formData).then(res => {
-          showAndQuery(_this)
-          this.dialogConfig.show = false
-        })
+        if (formData.id) {
+          update(formData).then(res => {
+            showAndQuery(_this)
+            this.dialogConfig.show = false
+          })
+        } else {
+          add(formData).then(res => {
+            showAndQuery(_this)
+            this.dialogConfig.show = false
+          })
+        }
       },
       query(data) {
         const _this = this
