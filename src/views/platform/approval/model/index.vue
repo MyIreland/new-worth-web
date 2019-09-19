@@ -242,6 +242,7 @@
           })
         } else {
           _this.dialogConfig.form = {}
+          _this.processes = [{ name: '节点1' }]
         }
         _this.dialogConfig.show = true
       },
