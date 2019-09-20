@@ -20,16 +20,6 @@
             :key="item.prop"
             :width="item.width">
           </el-table-column>
-          <el-table-column
-            prop="processes"
-            label="任务流程"
-            width="200">
-            <template slot-scope="scope">
-              <div class="table-processes" style="">
-
-              </div>
-            </template>
-          </el-table-column>
           <el-table-column label="操作" fixed="right" width="220">
             <template slot-scope="scope">
               <el-button
@@ -59,12 +49,33 @@
             :key="item.prop"
             :width="item.width">
           </el-table-column>
-          <el-table-column label="操作" fixed="right" width="220">
+          <el-table-column
+            prop="processes"
+            label="任务流程"
+            width="200">
+            <template slot-scope="scope">
+              <div class="table-processes">
+                <div class="process-item" style="float: left; margin-left: 10px;" v-for="item in scope.row.processes">{{item.userName + ' ' + item.status}}</div>
+                <div class="clearBoth"></div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" fixed="right" width="300">
             <template slot-scope="scope">
               <el-button
                 size="mini"
+                type="success"
+                @click="updateStatus(scope.$index, scope.row, 1)">通过
+              </el-button>
+              <el-button
+                size="mini"
                 type="danger"
-                @click="handleRecall(scope.$index, scope.row)">删除
+                @click="updateStatus(scope.$index, scope.row, 2)">驳回
+              </el-button>
+              <el-button
+                size="mini"
+                type="primary"
+                @click="approveLog(scope.$index, scope.row)">查看审批记录
               </el-button>
             </template>
           </el-table-column>
@@ -79,6 +90,7 @@
 <script>
   import BaseSearch from '@/components/Table/BaseSearch'
   import BasePagination from '@/components/Table/BasePagination'
+  import confirm from '@/utils/confirm'
   import approvalTaskApi from '@/api/platform/approvalTask'
   import message from '@/utils/message'
   const modelTypes = [{ label: 'finance', value: 10 }, { label: '11', value: 11 }]
@@ -127,6 +139,23 @@
       }
     },
     methods: {
+      updateStatus(index, row, status) {
+        const _this = this
+        if (row) {
+          const data = {
+            taskId: row.id,
+            status
+          }
+          confirm.confirm(_this, {
+            success: function() {
+              approvalTaskApi.updateCurrentProcessStatus(data).then(res => {
+                showAndQuery(_this)
+              })
+            }
+          })
+        }
+      },
+      approveLog() {},
       handleRecall(_index, row) {
         const _this = this
         confirm.confirm(_this, {

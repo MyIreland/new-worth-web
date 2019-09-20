@@ -32,6 +32,14 @@ T.pageByUser = function(data) {
   })
 }
 
+T.updateCurrentProcessStatus = function(data) {
+  return request({
+    url: 'api/approvalTask/updateCurrentProcessStatus',
+    method: 'post',
+    data
+  })
+}
+
 T.update = function(data) {
   return request({
     url: 'api/approvalTask',
