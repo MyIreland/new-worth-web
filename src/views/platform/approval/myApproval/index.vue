@@ -20,12 +20,23 @@
             :key="item.prop"
             :width="item.width">
           </el-table-column>
+          <el-table-column
+            prop="processes"
+            label="任务流程"
+            width="200">
+            <template slot-scope="scope">
+              <div class="table-processes" style="">
+
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column label="操作" fixed="right" width="220">
             <template slot-scope="scope">
               <el-button
+                v-if="scope.row.status === 0"
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除
+                @click="handleRecall(scope.$index, scope.row)">撤回
               </el-button>
             </template>
           </el-table-column>
@@ -53,7 +64,7 @@
               <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除
+                @click="handleRecall(scope.$index, scope.row)">删除
               </el-button>
             </template>
           </el-table-column>
@@ -96,9 +107,9 @@
           data: [],
           fields: [
             { prop: 'id', label: 'ID', width: 50 },
-            { prop: 'name', label: '名称' },
-            { prop: 'type', label: '类型' },
-            { prop: 'status', label: '状态', width: 50 },
+            { prop: 'name', label: '名称', width: 150 },
+            { prop: 'type', label: '类型', width: 60 },
+            { prop: 'status', label: '状态', width: 60 },
             { prop: 'userCreate', label: '创建人' },
             { prop: 'gmtCreate', label: '创建时间' }
           ]
@@ -116,7 +127,7 @@
       }
     },
     methods: {
-      handleDelete(_index, row) {
+      handleRecall(_index, row) {
         const _this = this
         confirm.confirm(_this, {
           success: function() {

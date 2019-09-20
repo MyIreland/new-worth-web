@@ -40,9 +40,9 @@ service.interceptors.response.use(
     const code = res.code
     if (code) {
       if (code === 200) {
-        // if (res.message) {
-        //   message.show(res.message)
-        // }
+        if (res.message) {
+          message.show(res.message)
+        }
         return res
       } else {
         message.error(res.message)
@@ -64,8 +64,8 @@ service.interceptors.response.use(
     return res
   },
   error => {
-    console.log(error) // for debug
     const errorData = error.response.data
+    console.log(errorData) // for debug
     const msg = errorData.msg || errorData.message || errorData.error_description || '未知错误！'
     message.error(msg)
 
