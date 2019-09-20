@@ -24,9 +24,9 @@ T.pageMyApprove = function(data) {
   })
 }
 
-T.listByUser = function(data) {
+T.pageByUser = function(data) {
   return request({
-    url: 'api/approvalTask/listByUser',
+    url: 'api/approvalTask/pageByUser',
     method: 'post',
     data
   })
