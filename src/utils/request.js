@@ -80,6 +80,7 @@ const fixedContentType = function(config) {
       break
     case 'file':
       config.headers['Content-Type'] = 'multipart/form-data'
+      break
     // eslint-disable-next-line no-fallthrough
     default:
       config.headers['Content-Type'] = 'application/x-www-form-urlencoded'

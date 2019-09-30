@@ -35,6 +35,15 @@ T.update = function(data) {
   })
 }
 
+T.editSelfInfo = function(data) {
+  return request({
+    url: 'api/user/editSelfInfo',
+    method: 'post',
+    dataType: 'json',
+    data
+  })
+}
+
 T.del = function(userId) {
   return request({
     url: 'api/user/' + userId,

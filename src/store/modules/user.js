@@ -3,6 +3,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
+    id: '',
     user: '',
     status: '',
     code: '',
@@ -31,6 +32,9 @@ const user = {
     },
     SET_STATUS: (state, status) => {
       state.status = status
+    },
+    SET_ID: (state, id) => {
+      state.id = id
     },
     SET_NAME: (state, name) => {
       state.name = name
@@ -75,6 +79,7 @@ const user = {
             commit('SET_ROLES', ['admin'])
             // reject('getInfo: roles must be a non-null array !')
           }
+          commit('SET_ID', data.id)
           commit('SET_NAME', data.realName)
           commit('SET_AVATAR', data.avatar)
           resolve(response)

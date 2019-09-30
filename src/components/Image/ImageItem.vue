@@ -2,7 +2,7 @@
 <div class="imgItem">
   <div class="imgContainer" :title="item.name">
     <span class="imgLink">
-      <img :src="item.url" width="70">
+      <img :src="item.url.startsWith('http') ? item.url : downloadUrl + item.url" width="70">
     </span>
   </div>
   <div class="imgInfo">
@@ -21,6 +21,11 @@
       item: {
         type: Object,
         default: () => {}
+      }
+    },
+    data() {
+      return {
+        downloadUrl: 'api/file/download?fileUrl='
       }
     },
     methods: {
