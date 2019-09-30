@@ -148,11 +148,10 @@ export default {
     },
     updateInfo() {
       const _this = this
-      console.log(_this.userForm)
-      // userApi.editSelfInfo(_this.userForm).then(res => {
-      //   message.show()
-      //   _this.dialog.show = false
-      // })
+      userApi.editSelfInfo(_this.userForm).then(res => {
+        message.show()
+        _this.dialog.show = false
+      })
     },
     openDialog() {
       const _this = this
