@@ -79,7 +79,7 @@ export const asyncRouterMap = [
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '系统监控',
-      icon: 'table'
+      icon: 'eye'
     },
     children: [
       { path: 'dataMonitoring', name: 'DataMonitoring', component: () => import('@/views/sysMonitoring/dataMonitoring/index'), meta: { title: '数据监控' }},
@@ -94,7 +94,7 @@ export const asyncRouterMap = [
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '系统管理',
-      icon: 'table'
+      icon: 'system'
     },
     children: [
       { path: 'menu', name: 'Menu', component: () => import('@/views/system/menu/index'), meta: { title: '菜单管理' }},
@@ -112,7 +112,7 @@ export const asyncRouterMap = [
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '平台管理',
-      icon: 'table'
+      icon: 'nested'
     },
     children: [
       { path: 'org', name: 'Org', component: () => import('@/views/platform/org/index'), meta: { title: '公司管理' }},
