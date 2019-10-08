@@ -41,14 +41,17 @@
     </el-menu>
 
     <el-dialog title="用户信息" :visible.sync="dialog.show">
-      <el-form :model="userForm" :rules="dialog.rules" ref="editForm">
+      <el-form :model="userForm" :rules="dialog.rules" ref="avatarForm">
         <el-form-item label="头像" :label-width="dialog.formLabelWidth">
           <el-upload
             class="avatar-uploader"
             :action="uploadUrl"
+            :multiple="false"
+            :accept="imgAccept"
+            :beforeUpload="beforeAvatarUpload"
             :show-file-list="false"
             :http-request="uploadSubmit">
-            <el-avatar shape="square" v-if="avatarUrl" :size="100" fit="contain" :src="avatarUrl"></el-avatar>
+            <img v-if="avatarUrl" :src="avatarUrl"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -109,6 +112,7 @@ export default {
     return {
       uploadUrl: 'api/file/batchUpload',
       avatarUrl: '',
+      imgAccept: '.png, .jpeg',
       userForm: {
         name: ''
       },
@@ -127,6 +131,13 @@ export default {
     }
   },
   methods: {
+    beforeAvatarUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        message.error('文件大小限制2M')
+      }
+      return isLt2M
+    },
     uploadSubmit(file) {
       const _this = this
       // 1. 创建formData 利用AXIOS传递
@@ -175,6 +186,11 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+  }
 .navbar {
   height: 50px;
   line-height: 50px;
