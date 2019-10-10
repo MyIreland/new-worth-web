@@ -115,7 +115,7 @@ export const asyncRouterMap = [
       icon: 'nested'
     },
     children: [
-      { path: 'org', name: 'Org', component: () => import('@/views/platform/org/index'), meta: { title: '公司管理' }},
+      { path: 'custom', name: 'Custom', component: () => import('@/views/platform/custom/index'), meta: { title: '客户管理' }},
       { path: 'approval', name: 'Approval', component: () => import('@/views/platform/approval/index'), meta: { title: '审批管理' },
         redirect: '/platform/approval/model',
         children: [

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import { page, get, add, update, del, batchDel } from '@/api/platform/org'
+  import { page, get, add, update, del, batchDel } from '@/api/platform/custom'
   import confirm from '@/utils/confirm'
   import message from '@/utils/message'
   import BasePagination from '@/components/Table/BasePagination'

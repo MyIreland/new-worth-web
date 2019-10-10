@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function page(data) {
   return request({
-    url: '/api/org/page',
+    url: '/api/custom/page',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function page(data) {
 
 export function add(data) {
   return request({
-    url: 'api/org',
+    url: 'api/custom',
     method: 'post',
     dataType: 'json',
     data
@@ -19,7 +19,7 @@ export function add(data) {
 
 export function update(data) {
   return request({
-    url: 'api/org',
+    url: 'api/custom',
     method: 'put',
     dataType: 'json',
     data
@@ -28,30 +28,30 @@ export function update(data) {
 
 export function list(data) {
   return request({
-    url: 'api/org/list',
+    url: 'api/custom/list',
     method: 'post',
     data
   })
 }
 
-export function del(orgId) {
+export function del(customId) {
   return request({
-    url: 'api/org/' + orgId,
+    url: 'api/custom/' + customId,
     method: 'delete'
   })
 }
 
 export function batchDel(data) {
   return request({
-    url: 'api/org/batchDel',
+    url: 'api/custom/batchDel',
     method: 'post',
     data
   })
 }
 
-export function get(orgId) {
+export function get(customId) {
   return request({
-    url: 'api/org/' + orgId,
+    url: 'api/custom/' + customId,
     method: 'get'
   })
 }
