@@ -39,29 +39,29 @@ export const constantRouterMap = [
       name: 'dashboard',
       meta: { title: '首页', icon: 'dashboard', noCache: true }
     }]
-  },
-  {
-    path: '/documentation',
-    component: Layout,
-    redirect: '/documentation/index',
-    children: [{
-      path: 'index',
-      component: () => import('@/views/documentation/index'),
-      name: 'documentation',
-      meta: { title: 'documentation', icon: 'documentation', noCache: true }
-    }]
-  },
-  {
-    path: '/guide',
-    component: Layout,
-    redirect: '/guide/index',
-    children: [{
-      path: 'index',
-      component: () => import('@/views/guide/index'),
-      name: 'guide',
-      meta: { title: 'guide', icon: 'guide', noCache: true }
-    }]
   }
+  // {
+  //   path: '/documentation',
+  //   component: Layout,
+  //   redirect: '/documentation/index',
+  //   children: [{
+  //     path: 'index',
+  //     component: () => import('@/views/documentation/index'),
+  //     name: 'documentation',
+  //     meta: { title: 'documentation', icon: 'documentation', noCache: true }
+  //   }]
+  // },
+  // {
+  //   path: '/guide',
+  //   component: Layout,
+  //   redirect: '/guide/index',
+  //   children: [{
+  //     path: 'index',
+  //     component: () => import('@/views/guide/index'),
+  //     name: 'guide',
+  //     meta: { title: 'guide', icon: 'guide', noCache: true }
+  //   }]
+  // }
 ]
 
 export default new Router({
@@ -83,8 +83,8 @@ export const asyncRouterMap = [
       icon: 'eye'
     },
     children: [
-      { path: 'dataMonitoring', name: 'DataMonitoring', component: () => import('@/views/sysMonitoring/dataMonitoring/index'), meta: { title: '数据监控' }},
-      { path: 'task', name: 'Task', component: () => import('@/views/sysMonitoring/task/index'), meta: { title: '任务管理' }}
+      { path: 'dataMonitoring', name: 'DataMonitoring', component: () => import('@/views/sysMonitoring/dataMonitoring/index'), meta: { hasPerm: ['sysMonitoring-data'], title: '数据监控' }},
+      { path: 'task', name: 'Task', component: () => import('@/views/sysMonitoring/task/index'), meta: { hasPerm: ['sysMonitoring-task'], title: '任务管理' }}
     ]
   },
   {
@@ -99,11 +99,11 @@ export const asyncRouterMap = [
       icon: 'system'
     },
     children: [
-      { path: 'menu', name: 'Menu', component: () => import('@/views/system/menu/index'), meta: { hasPerm: ['sys_menu'], title: '菜单管理' }},
-      { path: 'dict', name: 'Dict', component: () => import('@/views/system/dict/index'), meta: { hasPerm: ['sys_dict'], title: '字典管理' }},
-      { path: 'user', name: 'User', component: () => import('@/views/system/user/index'), meta: { hasPerm: ['sys_user'], title: '用户管理' }},
-      { path: 'role', name: 'Role', component: () => import('@/views/system/role/index'), meta: { hasPerm: ['sys_role'], title: '角色管理' }},
-      { path: 'file', name: 'File', component: () => import('@/views/system/file/index'), meta: { hasPerm: ['sys_file'], title: '文件管理' }}
+      { path: 'menu', name: 'Menu', component: () => import('@/views/system/menu/index'), meta: { hasPerm: ['sys-menu'], title: '菜单管理' }},
+      { path: 'dict', name: 'Dict', component: () => import('@/views/system/dict/index'), meta: { hasPerm: ['sys-dict'], title: '字典管理' }},
+      { path: 'user', name: 'User', component: () => import('@/views/system/user/index'), meta: { hasPerm: ['sys-user'], title: '用户管理' }},
+      { path: 'role', name: 'Role', component: () => import('@/views/system/role/index'), meta: { hasPerm: ['sys-role'], title: '角色管理' }},
+      { path: 'file', name: 'File', component: () => import('@/views/system/file/index'), meta: { hasPerm: ['sys-file'], title: '文件管理' }}
     ]
   },
   {
@@ -114,16 +114,18 @@ export const asyncRouterMap = [
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '平台管理',
+      hasPerm: ['platform'],
       icon: 'nested'
     },
     children: [
-      { path: 'custom', name: 'Custom', component: () => import('@/views/platform/custom/index'), meta: { title: '客户管理' }},
-      { path: 'approval', name: 'Approval', component: () => import('@/views/platform/approval/index'), meta: { title: '审批管理' },
+      { path: 'icons', name: 'Icons', component: () => import('@/views/svg-icons/index'), meta: { hasPerm: ['platform-icons'], title: '图标管理', icon: 'icon', noCache: true }},
+      { path: 'tenant', name: 'Tenant', component: () => import('@/views/platform/tenant/index'), meta: { title: '客户管理', hasPerm: ['platform-tenant'] }},
+      { path: 'approval', name: 'Approval', component: () => import('@/views/platform/approval/index'), meta: { title: '审批管理', hasPerm: ['platform-approval'] },
         redirect: '/platform/approval/model',
         children: [
-          { path: 'model', name: 'ApprovalModel', component: () => import('@/views/platform/approval/model'), meta: { title: '模型管理' }},
-          { path: 'task', name: 'ApprovalTask', component: () => import('@/views/platform/approval/task'), meta: { title: '任务管理' }},
-          { path: 'myApproval', name: 'MyApproval', component: () => import('@/views/platform/approval/myApproval'), meta: { title: '我的审批' }}
+          { path: 'model', name: 'ApprovalModel', component: () => import('@/views/platform/approval/model'), meta: { title: '模型管理', hasPerm: ['platform-approval-model'] }},
+          { path: 'task', name: 'ApprovalTask', component: () => import('@/views/platform/approval/task'), meta: { title: '任务管理', hasPerm: ['platform-approval-task'] }},
+          { path: 'myApproval', name: 'MyApproval', component: () => import('@/views/platform/approval/myApproval'), meta: { title: '我的审批', hasPerm: ['platform-approval-myApproval'] }}
         ]
       }
     ]
@@ -135,16 +137,14 @@ export const asyncRouterMap = [
     alwaysShow: true, // will always show the root menu
     meta: {
       title: 'permission',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      icon: 'lock'
     },
     children: [{
       path: 'page',
       component: () => import('@/views/permission/page'),
       name: 'pagePermission',
       meta: {
-        title: 'pagePermission',
-        roles: ['admin'] // or you can only set roles in sub nav
+        title: 'pagePermission'
       }
     }, {
       path: 'directive',
@@ -152,22 +152,9 @@ export const asyncRouterMap = [
       name: 'directivePermission',
       meta: {
         title: 'directivePermission'
-        // if do not set roles, means: this page does not require permission
       }
     }]
   },
-
-  {
-    path: '/icon',
-    component: Layout,
-    children: [{
-      path: 'index',
-      component: () => import('@/views/svg-icons/index'),
-      name: 'icons',
-      meta: { title: 'icons', icon: 'icon', noCache: true }
-    }]
-  },
-
   {
     path: '/components',
     component: Layout,
@@ -193,7 +180,6 @@ export const asyncRouterMap = [
       { path: 'drag-kanban', component: () => import('@/views/components-demo/dragKanban'), name: 'dragKanban-demo', meta: { title: 'dragKanban' }}
     ]
   },
-
   {
     path: '/charts',
     component: Layout,

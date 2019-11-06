@@ -127,12 +127,12 @@
         this.form.sort = this.form.sort.replace('.', '')
       },
       openDialog(data) {
+        resetForm(this)
         if (data) {
           this.form.parentId = data.id
         } else {
           this.form.parentId = ''
         }
-        resetForm(this)
         this.dialogFormVisible = true
       },
       get(data) {

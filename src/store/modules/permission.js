@@ -50,6 +50,6 @@ function hasPermission(menus, route) {
   if (route.meta && route.meta.hasPerm) {
     return menus.some(menu => route.meta.hasPerm.indexOf(menu) >= 0)
   }
-  return false
+  return true
 }
 export default permission
