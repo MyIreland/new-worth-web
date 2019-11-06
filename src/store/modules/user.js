@@ -12,6 +12,8 @@ const user = {
     avatar: '',
     introduction: '',
     roles: [],
+    perms: [],
+    menus: [],
     setting: {
       articlePlatform: []
     }
@@ -38,6 +40,12 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_MENUS: (state, menus) => {
+      state.perms = menus
+    },
+    SET_PERMS: (state, perms) => {
+      state.perms = perms
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -72,14 +80,16 @@ const user = {
             reject('invalid user')
           }
 
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
+          if (data.roleCodes && data.roleCodes.length > 0) { // 验证返回的roles是否是一个非空数组
+            commit('SET_ROLES', data.roleCodes)
           } else {
             // todo 先写死角色在里面
             commit('SET_ROLES', ['admin'])
             // reject('getInfo: roles must be a non-null array !')
           }
           commit('SET_ID', data.id)
+          commit('SET_MENUS', data.menus)
+          commit('SET_PERMS', data.perms)
           commit('SET_NAME', data.realName)
           commit('SET_AVATAR', data.avatar)
           resolve(response)

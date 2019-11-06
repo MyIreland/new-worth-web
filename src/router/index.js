@@ -78,6 +78,7 @@ export const asyncRouterMap = [
     name: 'SysMonitoring',
     alwaysShow: true, // will always show the root menu
     meta: {
+      hasPerm: ['sysMonitoring'],
       title: '系统监控',
       icon: 'eye'
     },
@@ -93,15 +94,16 @@ export const asyncRouterMap = [
     name: 'System',
     alwaysShow: true, // will always show the root menu
     meta: {
+      hasPerm: ['sys'],
       title: '系统管理',
       icon: 'system'
     },
     children: [
-      { path: 'menu', name: 'Menu', component: () => import('@/views/system/menu/index'), meta: { title: '菜单管理' }},
-      { path: 'dict', name: 'Dict', component: () => import('@/views/system/dict/index'), meta: { title: '字典管理' }},
-      { path: 'user', name: 'User', component: () => import('@/views/system/user/index'), meta: { title: '用户管理' }},
-      { path: 'role', name: 'Role', component: () => import('@/views/system/role/index'), meta: { title: '角色管理' }},
-      { path: 'file', name: 'File', component: () => import('@/views/system/file/index'), meta: { title: '文件管理' }}
+      { path: 'menu', name: 'Menu', component: () => import('@/views/system/menu/index'), meta: { hasPerm: ['sys_menu'], title: '菜单管理' }},
+      { path: 'dict', name: 'Dict', component: () => import('@/views/system/dict/index'), meta: { hasPerm: ['sys_dict'], title: '字典管理' }},
+      { path: 'user', name: 'User', component: () => import('@/views/system/user/index'), meta: { hasPerm: ['sys_user'], title: '用户管理' }},
+      { path: 'role', name: 'Role', component: () => import('@/views/system/role/index'), meta: { hasPerm: ['sys_role'], title: '角色管理' }},
+      { path: 'file', name: 'File', component: () => import('@/views/system/file/index'), meta: { hasPerm: ['sys_file'], title: '文件管理' }}
     ]
   },
   {

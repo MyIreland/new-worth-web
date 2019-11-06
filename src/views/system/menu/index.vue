@@ -88,11 +88,9 @@
       return {
         rules: {
           name: [{ required: true, message: '菜单名称必填', trigger: 'blur' }],
-          permission: [{ required: true, message: '权限码必填', trigger: 'blur' }],
-          url: [{ required: true, message: 'url必填', trigger: 'blur' }],
-          method: [{ required: true, message: '请求方式必填', trigger: 'blur' }],
-          // icon: [{ required: true, message: '图标必填', trigger: 'blur' }],
-          // sort: [{ required: true, message: '排序必填', trigger: 'blur' }],
+          // permission: [{ required: true, message: '权限码必填', trigger: 'blur' }],
+          // url: [{ required: true, message: 'url必填', trigger: 'blur' }],
+          // method: [{ required: true, message: '请求方式必填', trigger: 'blur' }],
           type: [{ required: true, message: '菜单类型必填', trigger: 'blur' }]
         },
 
