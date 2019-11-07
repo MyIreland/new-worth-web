@@ -118,7 +118,6 @@ export const asyncRouterMap = [
       icon: 'nested'
     },
     children: [
-      { path: 'icons', name: 'Icons', component: () => import('@/views/svg-icons/index'), meta: { hasPerm: ['platform-icons'], title: '图标管理', icon: 'icon', noCache: true }},
       { path: 'tenant', name: 'Tenant', component: () => import('@/views/platform/tenant/index'), meta: { title: '客户管理', hasPerm: ['platform-tenant'] }},
       { path: 'approval', name: 'Approval', component: () => import('@/views/platform/approval/index'), meta: { title: '审批管理', hasPerm: ['platform-approval'] },
         redirect: '/platform/approval/model',
@@ -127,7 +126,25 @@ export const asyncRouterMap = [
           { path: 'task', name: 'ApprovalTask', component: () => import('@/views/platform/approval/task'), meta: { title: '任务管理', hasPerm: ['platform-approval-task'] }},
           { path: 'myApproval', name: 'MyApproval', component: () => import('@/views/platform/approval/myApproval'), meta: { title: '我的审批', hasPerm: ['platform-approval-myApproval'] }}
         ]
-      }
+      },
+      { path: 'icons', name: 'Icons', component: () => import('@/views/svg-icons/index'), meta: { hasPerm: ['platform-icons'], title: '图标管理', icon: 'icon', noCache: true }}
+    ]
+  },
+  {
+    path: '/approval',
+    component: Layout,
+    name: 'Approval',
+    redirect: '/approval/model',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '审批管理',
+      hasPerm: ['approval'],
+      icon: 'excel'
+    },
+    children: [
+      { path: 'model', name: 'ApprovalModel', component: () => import('@/views/approval/model'), meta: { title: '模型管理', hasPerm: ['approval-model'] }},
+      { path: 'task', name: 'ApprovalTask', component: () => import('@/views/approval/task'), meta: { title: '任务管理', hasPerm: ['approval-task'] }},
+      { path: 'myApproval', name: 'MyApproval', component: () => import('@/views/approval/myApproval'), meta: { title: '我的审批', hasPerm: ['approval-myApproval'] }}
     ]
   },
   {
