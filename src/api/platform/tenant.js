@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function page(data) {
   return request({
-    url: '/api/custom/page',
+    url: '/api/tenant/page',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function page(data) {
 
 export function add(data) {
   return request({
-    url: 'api/custom',
+    url: 'api/tenant',
     method: 'post',
     dataType: 'json',
     data
@@ -19,7 +19,7 @@ export function add(data) {
 
 export function update(data) {
   return request({
-    url: 'api/custom',
+    url: 'api/tenant',
     method: 'put',
     dataType: 'json',
     data
@@ -28,30 +28,30 @@ export function update(data) {
 
 export function list(data) {
   return request({
-    url: 'api/custom/list',
+    url: 'api/tenant/list',
     method: 'post',
     data
   })
 }
 
-export function del(customId) {
+export function del(tenantId) {
   return request({
-    url: 'api/custom/' + customId,
+    url: 'api/tenant/' + tenantId,
     method: 'delete'
   })
 }
 
 export function batchDel(data) {
   return request({
-    url: 'api/custom/batchDel',
+    url: 'api/tenant/batchDel',
     method: 'post',
     data
   })
 }
 
-export function get(customId) {
+export function get(tenantId) {
   return request({
-    url: 'api/custom/' + customId,
+    url: 'api/tenant/' + tenantId,
     method: 'get'
   })
 }
